@@ -6,6 +6,7 @@ import Image from 'next/image';
 export default function Home() {
   const [selectedTab, setSelectedTab] = useState('curl');
   const [copied, setCopied] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const commands = {
     curl: 'curl -O https://raw.githubusercontent.com/Shubham-355/Thing/main/Thing.js',
@@ -135,6 +136,212 @@ export default function Home() {
                 fill
                 className="object-cover"
               />
+            </div>
+
+            {/* Built for customization section */}
+            <div className="w-full mt-20">
+              <h2 className="text-4xl font-bold text-black dark:text-white mb-8">
+                Built for customization
+              </h2>
+              <div className="space-y-4">
+                <div className="flex gap-3 items-start">
+                  <span className="text-green-600 dark:text-green-400 text-xl mt-1">✓</span>
+                  <p className="text-lg text-gray-700 dark:text-gray-300">
+                    You can introduce thing to any project customize instructions according to specific project
+                  </p>
+                </div>
+                <div className="flex gap-3 items-start">
+                  <span className="text-green-600 dark:text-green-400 text-xl mt-1">✓</span>
+                  <p className="text-lg text-gray-700 dark:text-gray-300">
+                    You can customize anything, literally anything!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full mt-20">
+              <div className="mb-12">
+                <h3 className="text-2xl font-semibold text-black dark:text-white mb-4">
+                  What is Thing?
+                </h3>
+                <p className="text-lg text-gray-700 dark:text-gray-300">
+                  Thing is an open source agent that helps you vibe code
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex gap-3 items-start">
+                  <span className="text-green-600 dark:text-green-400 text-xl mt-1">✓</span>
+                  <div>
+                    <p className="text-lg font-semibold text-black dark:text-white">
+                      Multi-session
+                    </p>
+                    <p className="text-base text-gray-700 dark:text-gray-300">
+                      Start multiple agents in parallel on the same project
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 items-start">
+                  <span className="text-green-600 dark:text-green-400 text-xl mt-1">✓</span>
+                  <div>
+                    <p className="text-lg font-semibold text-black dark:text-white">
+                      Claude
+                    </p>
+                    <p className="text-base text-gray-700 dark:text-gray-300">
+                      Use Anthropic API key to use your Claude
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 items-start">
+                  <span className="text-green-600 dark:text-green-400 text-xl mt-1">✓</span>
+                  <div>
+                    <p className="text-lg font-semibold text-black dark:text-white">
+                      Any model
+                    </p>
+                    <p className="text-base text-gray-700 dark:text-gray-300">
+                      Multiple LLM providers through, including local models
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 items-start">
+                  <span className="text-green-600 dark:text-green-400 text-xl mt-1">✓</span>
+                  <div>
+                    <p className="text-lg font-semibold text-black dark:text-white">
+                      Any editor
+                    </p>
+                    <p className="text-base text-gray-700 dark:text-gray-300">
+                      Available as a terminal interface
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* FAQ Dropdown section */}
+            <div className="w-full mt-20">
+              <h2 className="text-4xl font-bold text-black dark:text-white mb-8">
+                FAQ
+              </h2>
+
+              <div className="space-y-4">
+                {/* FAQ 1 */}
+                <div className="border-b border-gray-300 dark:border-gray-700 pb-4">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === 1 ? null : 1)}
+                    className="flex justify-between items-center w-full text-left"
+                  >
+                    <h3 className="text-xl font-semibold text-black dark:text-white pr-4">
+                      How do I use Thing?
+                    </h3>
+                    <span className="text-2xl text-gray-600 dark:text-gray-400 flex-shrink-0">
+                      {openFaq === 1 ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openFaq === 1 && (
+                    <p className="mt-4 text-base text-gray-700 dark:text-gray-300">
+                      The easiest way to get started is to read the{' '}
+                      <a
+                        href="https://github.com/Shubham-355/thing"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 dark:text-blue-400 underline hover:text-blue-800 dark:hover:text-blue-300"
+                      >
+                        docs
+                      </a>
+                    </p>
+                  )}
+                </div>
+
+                {/* FAQ 2 */}
+                <div className="border-b border-gray-300 dark:border-gray-700 pb-4">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === 2 ? null : 2)}
+                    className="flex justify-between items-center w-full text-left"
+                  >
+                    <h3 className="text-xl font-semibold text-black dark:text-white pr-4">
+                      Do I need extra AI subscriptions to use Thing? or Can I use my existing AI subscriptions with Thing?
+                    </h3>
+                    <span className="text-2xl text-gray-600 dark:text-gray-400 flex-shrink-0">
+                      {openFaq === 2 ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openFaq === 2 && (
+                    <p className="mt-4 text-base text-gray-700 dark:text-gray-300">
+                      All you need to do is paste api key!
+                    </p>
+                  )}
+                </div>
+
+                {/* FAQ 3 */}
+                <div className="border-b border-gray-300 dark:border-gray-700 pb-4">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === 3 ? null : 3)}
+                    className="flex justify-between items-center w-full text-left"
+                  >
+                    <h3 className="text-xl font-semibold text-black dark:text-white pr-4">
+                      How much does Thing cost?
+                    </h3>
+                    <span className="text-2xl text-gray-600 dark:text-gray-400 flex-shrink-0">
+                      {openFaq === 3 ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openFaq === 3 && (
+                    <p className="mt-4 text-base text-gray-700 dark:text-gray-300">
+                      Absolutely free!
+                    </p>
+                  )}
+                </div>
+
+                {/* FAQ 4 */}
+                <div className="border-b border-gray-300 dark:border-gray-700 pb-4">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === 4 ? null : 4)}
+                    className="flex justify-between items-center w-full text-left"
+                  >
+                    <h3 className="text-xl font-semibold text-black dark:text-white pr-4">
+                      What about data and privacy?
+                    </h3>
+                    <span className="text-2xl text-gray-600 dark:text-gray-400 flex-shrink-0">
+                      {openFaq === 4 ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openFaq === 4 && (
+                    <p className="mt-4 text-base text-gray-700 dark:text-gray-300">
+                      Its all local, you dont need to be worried!
+                    </p>
+                  )}
+                </div>
+
+                {/* FAQ 5 */}
+                <div className="border-b border-gray-300 dark:border-gray-700 pb-4">
+                  <button
+                    onClick={() => setOpenFaq(openFaq === 5 ? null : 5)}
+                    className="flex justify-between items-center w-full text-left"
+                  >
+                    <h3 className="text-xl font-semibold text-black dark:text-white pr-4">
+                      Is Thing open source?
+                    </h3>
+                    <span className="text-2xl text-gray-600 dark:text-gray-400 flex-shrink-0">
+                      {openFaq === 5 ? '−' : '+'}
+                    </span>
+                  </button>
+                  {openFaq === 5 && (
+                    <p className="mt-4 text-base text-gray-700 dark:text-gray-300">
+                      Ofc it is open source! You can star! You can contribute! You can help fund!
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Final message */}
+              <div className="mt-12 text-center">
+                <p className="text-lg text-gray-700 dark:text-gray-300">
+                  Ohh you came this far! Give it a star!
+                </p>
+              </div>
             </div>
           </div>
         </div>
