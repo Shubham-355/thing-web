@@ -1,12 +1,48 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [selectedTab, setSelectedTab] = useState('curl');
   const [copied, setCopied] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showStarAnimation, setShowStarAnimation] = useState(false);
+  const [starCount, setStarCount] = useState(0);
+  const [displayedCount, setDisplayedCount] = useState(0);
+
+  // Fetch GitHub star count
+  useEffect(() => {
+    fetch('https://api.github.com/repos/Shubham-355/thing')
+      .then(res => res.json())
+      .then(data => setStarCount(data.stargazers_count || 0))
+      .catch(() => setStarCount(0));
+  }, []);
+
+  // Animate counter with smooth increment
+  useEffect(() => {
+    if (showStarAnimation && starCount > 0) {
+      let current = 0;
+      const duration = 1000;
+      const steps = 60;
+      const increment = starCount / steps;
+      
+      const interval = setInterval(() => {
+        current += increment;
+        if (current >= starCount) {
+          setDisplayedCount(starCount);
+          clearInterval(interval);
+        } else {
+          setDisplayedCount(Math.floor(current));
+        }
+      }, duration / steps);
+      
+      return () => clearInterval(interval);
+    } else {
+      setDisplayedCount(0);
+    }
+  }, [showStarAnimation, starCount]);
 
   const commands = {
     curl: 'curl -O https://raw.githubusercontent.com/Shubham-355/Thing/main/Thing.js',
@@ -336,8 +372,105 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Final message */}
-              <div className="mt-12 text-center">
+              {/* Final message with star animation */}
+              <div 
+                className="mt-12 flex flex-col items-center gap-6 cursor-pointer"
+                onMouseEnter={() => setShowStarAnimation(true)}
+                onMouseLeave={() => setShowStarAnimation(false)}
+                onClick={() => window.open('https://github.com/Shubham-355/thing', '_blank')}
+              >
+                <div className="relative h-[100px] w-full flex items-center justify-center">
+                  {/* Star that moves and scales */}
+                  <motion.div 
+                    className="absolute flex items-center gap-4"
+                    animate={{ 
+                      x: showStarAnimation ? -50 : 0,
+                      scale: showStarAnimation ? 1.2 : 1,
+                      rotate: showStarAnimation ? [0, 5, -5, 0] : 0
+                    }}
+                    transition={{ 
+                      duration: 0.6, 
+                      ease: "easeOut",
+                      rotate: { duration: 0.4, ease: "easeInOut" }
+                    }}
+                  >
+                    <span className="text-4xl">⭐</span>
+                  </motion.div>
+                  
+                  {/* Animated counter with particles */}
+                  <AnimatePresence>
+                    {showStarAnimation && (
+                      <motion.div 
+                        className="absolute flex items-center gap-2"
+                        initial={{ opacity: 0, x: -20, scale: 0.5 }}
+                        animate={{ opacity: 1, x: 50, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.5 }}
+                        transition={{ duration: 0.5, ease: "backOut" }}
+                      >
+                        {/* Glowing background */}
+                        <motion.div
+                          className="absolute inset-0 bg-yellow-400/20 blur-xl rounded-full"
+                          animate={{ 
+                            scale: [1, 1.2, 1],
+                            opacity: [0.3, 0.5, 0.3]
+                          }}
+                          transition={{ 
+                            duration: 2, 
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
+                        />
+                        
+                        {/* Counter digits with flip animation */}
+                        <div className="relative flex items-center gap-1">
+                          {displayedCount.toLocaleString().split('').map((digit, index) => (
+                            <motion.span
+                              key={`${digit}-${index}`}
+                              className="text-5xl font-bold text-yellow-500 dark:text-yellow-400 inline-block"
+                              initial={{ rotateX: -90, opacity: 0 }}
+                              animate={{ rotateX: 0, opacity: 1 }}
+                              transition={{ 
+                                delay: index * 0.05,
+                                duration: 0.3,
+                                ease: "easeOut"
+                              }}
+                              style={{ 
+                                textShadow: '0 0 20px rgba(250, 204, 21, 0.5)',
+                                transformStyle: 'preserve-3d'
+                              }}
+                            >
+                              {digit}
+                            </motion.span>
+                          ))}
+                        </div>
+
+                        {/* Sparkle particles */}
+                        {[...Array(6)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                            style={{
+                              left: '50%',
+                              top: '50%',
+                            }}
+                            animate={{
+                              x: [0, Math.cos(i * Math.PI / 3) * 40],
+                              y: [0, Math.sin(i * Math.PI / 3) * 40],
+                              opacity: [1, 0],
+                              scale: [0, 1, 0]
+                            }}
+                            transition={{
+                              duration: 1,
+                              delay: 0.5 + i * 0.1,
+                              repeat: Infinity,
+                              repeatDelay: 2
+                            }}
+                          />
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
                 <p className="text-lg text-gray-700 dark:text-gray-300">
                   Ohh you came this far! Give it a star!
                 </p>
